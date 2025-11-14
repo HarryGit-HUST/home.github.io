@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的兴趣爱好</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- 配置Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#6366F1',
+                        dark: 'rgba(0, 0, 0, 0.7)',
+                        light: 'rgba(255, 255, 255, 0.9)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .bg-blur {
+        backdrop-filter: blur(8px);
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      .transition-bg {
+        transition: background-image 1.5s ease-in-out;
+      }
+      .scrollbar-thin {
+        scrollbar-width: thin;
+      }
+      .scrollbar-thumb-rounded {
+        scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+      }
+      .image-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .image-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      }
+    }
+  </style>
+
+    <style>
+        /* 背景切换动画 */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        /* 内容淡入动画 */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 滚动区域样式 */
+        .scroll-content {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .scroll-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scroll-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .scroll-content::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        /* 图片容器样式 */
+        .image-container img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-light min-h-screen">
+    <!-- 背景遮罩层 -->
+    <div class="fixed inset-0 bg-dark z-[-1]"></div>
+
+    <!-- 背景图片容器 - 用于实现平滑过渡效果 -->
+    <div id="bg1" class="background-container"></div>
+    <div id="bg2" class="background-container opacity-0"></div>
+
+    <!-- 主容器 -->
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- 标题区域 -->
+        <header class="text-center mb-12 fade-in">
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-shadow mb-4">我的兴趣爱好</h1>
+            <p class="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">探索我生活中的热情与爱好，这些兴趣塑造了我的个性与生活方式</p>
+        </header>
+
+        <!-- 主内容区 -->
+        <main id="main-content" class="fade-in">
+            <!-- 目录视图 -->
+            <section id="directory-view" class="block">
+                <div class="bg-dark/60 bg-blur rounded-xl p-6 md:p-8 shadow-2xl">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-6 pb-2 border-b border-light/20">兴趣目录</h2>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <li>
+                            <a href="#"
+                                class="interest-link block p-4 bg-primary/20 hover:bg-primary/40 rounded-lg transition-all duration-300 flex items-center gap-3"
+                                data-interest="reading">
+                                <i class="fa fa-book text-primary text-xl"></i>
+                                <span class="text-lg">阅读</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="interest-link block p-4 bg-primary/20 hover:bg-primary/40 rounded-lg transition-all duration-300 flex items-center gap-3"
+                                data-interest="music">
+                                <i class="fa fa-music text-primary text-xl"></i>
+                                <span class="text-lg">音乐</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="interest-link block p-4 bg-primary/20 hover:bg-primary/40 rounded-lg transition-all duration-300 flex items-center gap-3"
+                                data-interest="travel">
+                                <i class="fa fa-globe text-primary text-xl"></i>
+                                <span class="text-lg">旅行</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="interest-link block p-4 bg-primary/20 hover:bg-primary/40 rounded-lg transition-all duration-300 flex items-center gap-3"
+                                data-interest="sports">
+                                <i class="fa fa-futbol-o text-primary text-xl"></i>
+                                <span class="text-lg">运动</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="interest-link block p-4 bg-primary/20 hover:bg-primary/40 rounded-lg transition-all duration-300 flex items-center gap-3"
+                                data-interest="cooking">
+                                <i class="fa fa-cutlery text-primary text-xl"></i>
+                                <span class="text-lg">烹饪</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="interest-link block p-4 bg-primary/20 hover:bg-primary/40 rounded-lg transition-all duration-300 flex items-center gap-3"
+                                data-interest="photography">
+                                <i class="fa fa-camera text-primary text-xl"></i>
+                                <span class="text-lg">摄影</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 兴趣详情视图 - 阅读 -->
+            <section id="reading-view" class="hidden">
+                <div class="bg-dark/60 bg-blur rounded-xl p-6 md:p-8 shadow-2xl">
+                    <div class="mb-6">
+                        <button id="back-to-dir"
+                            class="inline-flex items-center gap-2 text-light/80 hover:text-light transition-colors">
+                            <i class="fa fa-arrow-left"></i>
+                            <span>返回目录</span>
+                        </button>
+                    </div>
+
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-shadow">阅读</h2>
+
+                    <div class="scroll-content scrollbar-thin scrollbar-thumb-rounded">
+                        <div class="prose prose-lg prose-invert max-w-none">
+                            <!-- 阅读兴趣的图片区域 -->
+                            <div class="mb-8">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <!-- 图片1 - 请替换为您的图片地址 -->
+                                    <div
+                                        class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64 md:h-80">
+                                        <img src="assets/img/reading/a.jpg" alt="阅读场景">
+                                    </div>
+                                    <!-- 图片2 - 请替换为您的图片地址 -->
+                                    <div
+                                        class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64 md:h-80">
+                                        <img src="assets/img/reading/b.jpg" alt="我的书架">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 class="text-2xl mt-8 mb-4">很久以前</h3>
+                            <p>从小家里便推荐我看各种冒险和故事的书，家长严格把控了网络的使用权限，导致我消遣的方式基本上主要就是下楼跟其他小伙伴玩或者看书。幸运的是，从童话发展到儿童文学，再是网文，至少我对文字的兴趣一直都没有消退。
+                            </p>
+                            <br>
+                            <br>
+                            <p>接触到文字的魅力，开始真正沉浸于此，是在高一下的暑假。高一下疫情复发，最后几周上的是网课，非惯性的环境和减弱的监管导致自律的崩坏，自然的，期末考试出来成绩也不好看，年级倒数。加上曾经自以为是知己的好友三观不同而基本决裂，我不仅仅对自己失望到了极点，也对世界充满了灰暗的看法。“没有人理解我”从对中二小学生的嘲弄变成了对自己的阐释，我一边笑话自己如此脆弱，一边又深感孤独的痛苦。所以，暑假的大部分早上，挣扎的从床上起来，骑车二十分钟去往学校，然后在图书馆泡一整天，晚上唱着歌就回来了。我寄希望于书籍，希望他人的经历和学术性的阐述能解决我心中的疑惑。
+                            </p>
+                            <br>
+                            <br>
+                            <p>事实证明，这个方法虽然没有成功，但至少我更快乐了。整个暑假，我看了38本书。一开始是小说，后来是名著，再后来就是哲学和社会学的著作。我学会了从字里行间体会文字排兵布阵的魅力，我乐于沉浸在它所营造的意境之中，我终于能回答小时候我对那些大部头的疑问：“为什么要把书写的看不懂”？因为情感的直接宣泄是绵软无力的，我想写我愤怒，我直接说愤怒两个字，读者既不能移情，也无法理解。但是我用修辞，我曲折的表露，我将情感藏匿在文字背后，我设计故事的情节，我注重结构带来的潜在效果。这样，审美的难度给读者带来愉悦，发掘的过程是读者体会作者的过程，也是与书籍同位的前提。如此，我真正体会到满足欲望之外的一种美。我从书籍中发现了一个崇高的自我——一个即遥远的只在理想中存在的，却又是距离我最近的自我。
+                            </p>
+                            <br>
+                            <br>
+
+                            <h3 class="text-2xl mt-8 mb-4">但是我真的喜欢读书吗</h3>
+                            <p>诚然，我享受阅读的快感。但是，高考和它带来的压力改变了很多。
+                                在高三，一模之前，我保持着每周两本书的节奏。周六能回家的晚上，去图书馆借阅两本书籍，在周日休息的时候看，在晚自习结束之后留在教室接着看。我那时候以为我是爱读书的，但很大一部分原因是因为我从学习上不能获得成就感。成绩反应的努力程度和自身真正的努力程度的周期是不尽重合的，所以所谓“努力了没有回报”就可以这么来解释：再等等，再加把劲。不过成绩上下起伏波动带来的挫败感是不能被这种开解所消解的，“如果我再多做些什么，这次肯定不同”。我一边用前者的说法开解，一边不相信这种说法，自责的鞭策自己。我知道很多道理，也不相信很多道理，我以为我是“不同的”。这也就导致我下面两个问题，“爱读书”的本质，和高三的策略。
+
+                            </p>
+                            <br>
+                            <br>
+
+                            <p>现在想象你在玩一个石头剪刀布的游戏，你的对手很强大，它能读你的内心，你该怎么做才能赢？答案是认知扭曲，嘴上说着石头，手却出得的布。换一种说法，推翻脑海里词语的概念，将能指与所指换一种搭配，“石头”指代的就是布，“相信”自己的新的说法。
+                                我在高三就做到了几乎相近的结果。我给自己成功洗脑了。我从根源上改变了我的本性，我将“正确”融入到我的精神，形成一套体系完整的反馈机制。我“认为”，学习是对的，那么我努力从学习中汲取快乐；我“认为”，读书是崇高的，那么我努力在读书时塑造人格；我“认为”，游戏是坏的，那么我在休息时玩游戏会获得极大的罪恶感和愧疚。我为这个“我”的存在而骄傲，这个“我”恰巧符合的社会的大部分规范，符合了高考的要求，他让我说得过去，他让我享受高三，他让我以为我有机会。其实到最后，我也不知道什么才是真正的我了。这个所谓的人格，既是我所愿望的，也是大家所愿望的。
+
+                            </p>
+                            <br>
+                            <br>
+                            <p>那么为什么我语气中流露出对此的怀疑呢？因为高考结束了。几个数字告诉我，我是失败的。这并非是最大的诱因，最大的因素是：我再也没有高三的那种学习状态了。高三前，我想着暑假我会学习多少有趣的技能，比如说简笔画，做手冲咖啡，练字，学习音标（是的我到现在音标还不会）；我想着我会过一个充足的暑假，学习自己喜欢的，看自己喜欢的书。然而这些我基本都没有做到，曾经唾手可得的专注变得无处可寻，一边看着考好的同学，五味杂陈，一边在游戏和无所事事中自甘堕落。我以为我能做到的，差太远了。甚至连最基本的读书，也变成了一种炫耀——我现在读书的动力完全来源于想象中他人惊诧的目光，我只会在地铁和通勤的时候读书了。
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 兴趣详情视图 - 音乐 -->
+            <section id="music-view" class="hidden">
+                <div class="bg-dark/60 bg-blur rounded-xl p-6 md:p-8 shadow-2xl">
+                    <div class="mb-6">
+                        <button id="back-to-dir-2"
+                            class="inline-flex items-center gap-2 text-light/80 hover:text-light transition-colors">
+                            <i class="fa fa-arrow-left"></i>
+                            <span>返回目录</span>
+                        </button>
+                    </div>
+
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-shadow">音乐</h2>
+
+                    <div class="scroll-content scrollbar-thin scrollbar-thumb-rounded">
+                        <div class="prose prose-lg prose-invert max-w-none">
+                            <!-- 音乐兴趣的图片区域 -->
+                            <div class="mb-8">
+                                <div class="grid grid-cols-1 gap-4">
+                                    <!-- 图片1 - 请替换为您的图片地址 -->
+                                    <div
+                                        class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64 md:h-96">
+                                        <img src="assets/img/music1.jpg" alt="我的音乐收藏">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>音乐是我生活中不可或缺的一部分，它就像空气和水一样，滋养着我的心灵。对我来说，音乐不仅是一种艺术形式，更是一种情感的表达和沟通方式。无论我处于喜怒哀乐的哪种情绪中，总能找到适合当下心情的音乐，它能与我共鸣，也能改变我的心境。
+                            </p>
+
+                            <h3 class="text-2xl mt-8 mb-4">我喜欢的音乐类型</h3>
+                            <p>我的音乐品味比较广泛，不同的场合和心情下，我会选择不同类型的音乐：</p>
+
+                            <!-- 音乐类型图片展示 -->
+                            <div class="mb-6">
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <!-- 图片1 - 请替换为您的图片地址 -->
+                                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-40">
+                                        <img src="assets/img/classical.jpg" alt="古典音乐">
+                                    </div>
+                                    <!-- 图片2 - 请替换为您的图片地址 -->
+                                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-40">
+                                        <img src="assets/img/rock.jpg" alt="摇滚音乐">
+                                    </div>
+                                    <!-- 图片3 - 请替换为您的图片地址 -->
+                                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-40">
+                                        <img src="assets/img/jazz.jpg" alt="爵士音乐">
+                                    </div>
+                                    <!-- 图片4 - 请替换为您的图片地址 -->
+                                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-40">
+                                        <img src="assets/img/folk.jpg" alt="民谣音乐">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p><strong>古典音乐</strong>：在我需要专注工作或阅读时，巴赫、莫扎特和贝多芬的作品是我的首选。它们的旋律优美而不张扬，能够帮助我集中注意力。</p>
+
+                            <p><strong>摇滚乐</strong>：当我需要释放压力或寻找动力时，我会听一些经典摇滚乐队的作品，如披头士、滚石乐队和皇后乐队。他们的音乐充满活力和反叛精神，能让我感到充满力量。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 兴趣详情视图 - 旅行 -->
+            <section id="travel-view" class="hidden">
+                <div class="bg-dark/60 bg-blur rounded-xl p-6 md:p-8 shadow-2xl">
+                    <div class="mb-6">
+                        <button id="back-to-dir-3"
+                            class="inline-flex items-center gap-2 text-light/80 hover:text-light transition-colors">
+                            <i class="fa fa-arrow-left"></i>
+                            <span>返回目录</span>
+                        </button>
+                    </div>
+
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-shadow">旅行</h2>
+
+                    <div class="scroll-content scrollbar-thin scrollbar-thumb-rounded">
+                        <div class="prose prose-lg prose-invert max-w-none">
+                            <!-- 旅行兴趣的图片区域 -->
+                            <div class="mb-8">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <!-- 图片1 - 请替换为您的图片地址 -->
+                                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-56">
+                                        <img src="assets/img/travel1.jpg" alt="山川风景">
+                                    </div>
+                                    <!-- 图片2 - 请替换为您的图片地址 -->
+                                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-56">
+                                        <img src="assets/img/travel2.jpg" alt="城市风光">
+                                    </div>
+                                    <!-- 图片3 - 请替换为您的图片地址 -->
+                                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-56">
+                                        <img src="assets/img/travel3.jpg" alt="海边日落">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>旅行对我来说不仅仅是游览风景名胜，更是一种探索世界、认识自己的方式。我喜欢通过旅行去体验不同的文化，品尝不同的美食，结识不同的人，这些经历丰富了我的人生，也让我对世界有了更深刻的理解。
+                            </p>
+
+                            <h3 class="text-2xl mt-8 mb-4">难忘的旅行经历</h3>
+
+                            <p><strong>西藏之旅</strong>：那是我最难忘的一次旅行。当我第一次看到布达拉宫时，被它的宏伟和神圣深深震撼。在西藏，我看到了最纯净的蓝天和最虔诚的信徒，感受到了一种超越物质的精神力量。
+                            </p>
+
+                            <p><strong>日本京都之旅</strong>：京都的每一座寺庙和庭院都散发着独特的韵味，传统与现代在这里完美融合。我印象最深的是在一个雨天参观金阁寺，雨水打湿的金阁倒映在湖水中，美得像一幅画。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 兴趣详情视图 - 运动 -->
+            <section id="sports-view" class="hidden">
+                <div class="bg-dark/60 bg-blur rounded-xl p-6 md:p-8 shadow-2xl">
+                    <div class="mb-6">
+                        <button id="back-to-dir-4"
+                            class="inline-flex items-center gap-2 text-light/80 hover:text-light transition-colors">
+                            <i class="fa fa-arrow-left"></i>
+                            <span>返回目录</span>
+                        </button>
+                    </div>
+
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-shadow">运动</h2>
+
+                    <div class="scroll-content scrollbar-thin scrollbar-thumb-rounded">
+                        <div class="prose prose-lg prose-invert max-w-none">
+                            <!-- 运动兴趣的图片区域 -->
+                            <div class="mb-8">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <!-- 图片1 - 请替换为您的图片地址 -->
+                                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64">
+                                        <img src="assets/img/sport1.jpg" alt="跑步">
+                                    </div>
+                                    <!-- 图片2 - 请替换为您的图片地址 -->
+                                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64">
+                                        <img src="assets/img/sport2.jpg" alt="篮球">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>我一直相信，健康的身体是幸福生活的基础，而运动则是保持身体健康的最佳方式。对我来说，运动不仅能锻炼身体，还能缓解压力，提升心情。无论是独自一人还是与朋友一起，运动总能给我带来快乐和满足感。
+                            </p>
+
+                            <h3 class="text-2xl mt-8 mb-4">我喜欢的运动</h3>
+
+                            <p><strong>跑步</strong>：跑步是我最常进行的运动。我喜欢早晨跑步，当清新的空气进入肺部，看着城市慢慢苏醒，那种感觉非常美好。</p>
+
+                            <p><strong>篮球</strong>：我喜欢和朋友们一起打篮球，这不仅能锻炼身体，还能增进友谊。篮球是一项团队运动，需要队员之间的配合和信任。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cooking-view" class="hidden">
+                <div class="bg-dark/60 bg-blur rounded-xl p-6 md:p-8 shadow-2xl">
+                    <div class="mb-6">
+                        <button id="back-to-dir-5"
+                            class="inline-flex items-center gap-2 text-light/80 hover:text-light transition-colors">
+                            <i class="fa fa-arrow-left"></i>
+                            <span>返回目录</span>
+                        </button>
+                    </div>
+
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-shadow">烹饪</h2>
+
+                    <div class="scroll-content scrollbar-thin scrollbar-thumb-rounded">
+                        <div class="prose prose-lg prose-invert max-w-none">
+                            <!-- 烹饪兴趣的图片区域 -->
+                            <div class="mb-8">
+                                <div class="grid grid-cols-1 gap-4">
+                                    <!-- 图片1 - 请替换为您的图片地址 -->
+                                    <div
+                                        class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64 md:h-96">
+                                        <img src="assets/img/cooking1.jpg" alt="我的厨艺作品">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>烹饪对我来说是一种乐趣，也是一种放松的方式。我喜欢在厨房里忙碌的感觉，将各种食材巧妙地搭配在一起，创造出美味的菜肴，这种过程让我感到非常满足。对我来说，烹饪不仅是为了填饱肚子，更是一种生活的艺术。
+                            </p>
+
+                            <h3 class="text-2xl mt-8 mb-4">我的拿手菜</h3>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>红烧肉：这是我最拿手的一道菜，肥而不腻，入口即化</li>
+                                <li>手作披萨：我喜欢自己做披萨饼底，搭配不同的配料</li>
+                                <li>奶油蘑菇意面：creamy浓郁，香气四溢</li>
+                                <li>提拉米苏：口感细腻，咖啡味浓郁</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="photography-view" class="hidden">
+                <div class="bg-dark/60 bg-blur rounded-xl p-6 md:p-8 shadow-2xl">
+                    <div class="mb-6">
+                        <button id="back-to-dir-6"
+                            class="inline-flex items-center gap-2 text-light/80 hover:text-light transition-colors">
+                            <i class="fa fa-arrow-left"></i>
+                            <span>返回目录</span>
+                        </button>
+                    </div>
+
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-shadow">摄影</h2>
+
+                    <div class="scroll-content scrollbar-thin scrollbar-thumb-rounded">
+                        <div class="prose prose-lg prose-invert max-w-none">
+                            <!-- 摄影兴趣的图片区域 -->
+                            <div class="mb-8">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <!-- 图片1 - 请替换为您的图片地址 -->
+                                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64">
+                                        <img src="assets/img/photo1.jpg" alt="风景摄影">
+                                    </div>
+                                    <!-- 图片2 - 请替换为您的图片地址 -->
+                                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64">
+                                        <img src="assets/img/photo2.jpg" alt="人文摄影">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>摄影对我来说是一种记录生活、表达自我的方式。通过镜头，我可以捕捉生活中的美好瞬间，记录下那些值得回忆的时刻。对我而言，摄影不仅是一门技术，更是一种观察世界的角度和态度。</p>
+
+                            <h3 class="text-2xl mt-8 mb-4">我喜欢的摄影类型</h3>
+
+                            <p><strong>纪实摄影</strong>：我喜欢记录日常生活中的真实瞬间，那些不经意的表情和动作往往最能打动人心。</p>
+
+                            <p><strong>风景摄影</strong>：旅行的时候，我最喜欢拍风景照。大自然的壮丽和美丽总能给我带来灵感。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="mt-12 text-center text-light/60 text-sm fade-in">
+            <p>个人兴趣介绍 &copy; 2023</p>
+        </footer>
+    </div>
+
+<script>
+    // 配置本地背景图片库 - 根据您提供的路径和文件名设置
+    // 图片位于 assets/img/local-bg/ 目录下，文件名为 local (1).png 到 local (29).png
+    const backgroundImages = [];
+    // 生成图片路径数组
+    for (let i = 1; i <= 29; i++) {
+        backgroundImages.push(
+            `assets/img/local-bg/a.png`,
+            `assets/img/local-bg/b.png`,
+            `assets/img/local-bg/c.png`,
+            `assets/img/local-bg/d.png`,
+            `assets/img/local-bg/e.png`,
+            `assets/img/local-bg/f.png`,
+            `assets/img/local-bg/g.png`,
+            `assets/img/local-bg/h.png`,
+            `assets/img/local-bg/1.jpg`,
+            `assets/img/local-bg/2.jpg`,
+            `assets/img/local-bg/3.jpg`,
+            `assets/img/local-bg/4.jpg`,
+            `assets/img/local-bg/5.jpg`,
+            `assets/img/local-bg/6.jpg`
+        );
+    }
+
+    // 获取背景容器
+    const bg1 = document.getElementById('bg1');
+    const bg2 = document.getElementById('bg2');
+
+    // 初始化背景
+    let currentBgIndex = 0;
+    let isUsingBg1 = true;
+
+    // 设置初始背景
+    bg1.style.backgroundImage = `url(${backgroundImages[0]})`;
+
+    // 随机获取下一张背景图片索引
+    function getNextBgIndex() {
+        let nextIndex;
+        do {
+            nextIndex = Math.floor(Math.random() * backgroundImages.length);
+        } while (nextIndex === currentBgIndex); // 确保不重复使用同一张图片
+
+        currentBgIndex = nextIndex;
+        return nextIndex;
+    }
+
+    // 切换背景图片
+    function changeBackground() {
+        const nextBgIndex = getNextBgIndex();
+        const nextBg = isUsingBg1 ? bg2 : bg1;
+        const currentBg = isUsingBg1 ? bg1 : bg2;
+
+        // 设置下一张背景图
+        nextBg.style.backgroundImage = `url(${backgroundImages[nextBgIndex]})`;
+        nextBg.style.opacity = '0';
+
+        // 触发过渡动画
+        setTimeout(() => {
+            nextBg.style.opacity = '1';
+            currentBg.style.opacity = '0';
+        }, 50);
+
+        // 切换当前使用的背景容器
+        setTimeout(() => {
+            currentBg.style.opacity = '1';
+            isUsingBg1 = !isUsingBg1;
+        }, 1500);
+    }
+
+    // 每5秒切换一次背景
+    setInterval(changeBackground, 5000);
+
+    // 目录和详情页切换逻辑
+    document.addEventListener('DOMContentLoaded', () => {
+        // 所有兴趣链接
+        const interestLinks = document.querySelectorAll('.interest-link');
+
+        // 返回按钮
+        const backButtons = [
+            document.getElementById('back-to-dir'),
+            document.getElementById('back-to-dir-2'),
+            document.getElementById('back-to-dir-3'),
+            document.getElementById('back-to-dir-4'),
+            document.getElementById('back-to-dir-5'),
+            document.getElementById('back-to-dir-6')
+        ];
+
+        // 显示目录
+        function showDirectory() {
+            document.getElementById('directory-view').classList.remove('hidden');
+            document.getElementById('directory-view').classList.add('fade-in');
+
+            // 隐藏所有详情视图
+            document.querySelectorAll('section[id$="-view"]:not(#directory-view)').forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('fade-in');
+            });
+        }
+
+        // 显示兴趣详情
+        function showInterest(interest) {
+            // 隐藏目录
+            document.getElementById('directory-view').classList.add('hidden');
+            document.getElementById('directory-view').classList.remove('fade-in');
+
+            // 显示对应兴趣详情
+            const view = document.getElementById(`${interest}-view`);
+            view.classList.remove('hidden');
+            // 重置滚动位置到顶部
+            const scrollContent = view.querySelector('.scroll-content');
+            if (scrollContent) scrollContent.scrollTop = 0;
+
+            setTimeout(() => {
+                view.classList.add('fade-in');
+            }, 50);
+        }
+
+        // 绑定兴趣链接点击事件
+        interestLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const interest = link.getAttribute('data-interest');
+                showInterest(interest);
+            });
+        });
+
+        // 绑定返回按钮事件
+        backButtons.forEach(button => {
+            if (button) {
+                button.addEventListener('click', showDirectory);
+            }
+        });
+    });
+</script>
+</body>
+
+</html>
