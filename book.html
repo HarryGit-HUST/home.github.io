@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Harry's Book Collection</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/dmego-home-page@latest/assets/css/iconfont.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --text-color: #ecf0f1;
+            --bg-opacity: 0.9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* 3D背景效果 */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .bg-cube {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+            animation: rotate 20s infinite linear;
+            opacity: 0.1;
+        }
+
+        .bg-cube div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bg-cube .front {
+            transform: translateZ(100px);
+        }
+
+        .bg-cube .back {
+            transform: rotateY(180deg) translateZ(100px);
+        }
+
+        .bg-cube .right {
+            transform: rotateY(90deg) translateZ(100px);
+        }
+
+        .bg-cube .left {
+            transform: rotateY(-90deg) translateZ(100px);
+        }
+
+        .bg-cube .top {
+            transform: rotateX(90deg) translateZ(100px);
+        }
+
+        .bg-cube .bottom {
+            transform: rotateX(-90deg) translateZ(100px);
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotateX(0) rotateY(0);
+            }
+
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+        /* 页面容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* 头部样式 */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.3s;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #bdc3c7;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.6s;
+        }
+
+        /* 音乐播放器 */
+        .music-player {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(44, 62, 80, 0.8);
+            padding: 1rem;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.9s;
+        }
+
+        .music-player button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .music-player button:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .music-player progress {
+            width: 200px;
+            height: 6px;
+            margin: 0 1rem;
+            accent-color: var(--accent-color);
+        }
+
+        /* 书籍网格 */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-bottom: 6rem;
+        }
+
+        .book-card {
+            height: 450px;
+            position: relative;
+            perspective: 1500px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+
+        .book-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .book-cover,
+        .book-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            transition: all 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-cover {
+            background: var(--primary-color);
+            z-index: 2;
+            transform: rotateY(0deg);
+            overflow: hidden;
+        }
+
+        .book-cover img {
+            max-width: 80%;
+            max-height: 70%;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
+        }
+
+        .book-cover h3 {
+            margin-top: 1.5rem;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .book-content {
+            background: var(--secondary-color);
+            transform: rotateY(180deg);
+            z-index: 1;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .book-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .book-content p {
+            line-height: 1.8;
+            color: #bdc3c7;
+        }
+
+        .book-card:hover .book-cover {
+            transform: rotateY(180deg);
+        }
+
+        .book-card:hover .book-content {
+            transform: rotateY(0deg);
+        }
+
+        /* 留言板区域 */
+        .message-board {
+            background: rgba(44, 62, 80, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 4rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease 0.5s;
+        }
+
+        .message-board.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message-board h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+
+        .message-form {
+            margin-bottom: 2rem;
+        }
+
+        .message-form textarea {
+            width: 100%;
+            height: 120px;
+            padding: 1rem;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            font-size: 1rem;
+            resize: none;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .message-form textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
+
+        .message-form button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .message-form button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .messages-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .message-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .message-item .message-text {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .message-item .message-time {
+            font-size: 0.8rem;
+            color: #95a5a6;
+            text-align: right;
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(52, 152, 219, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(52, 152, 219, 0.8);
+        }
+
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .music-player progress {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 3D背景容器 -->
+    <div class="bg-container" id="bgContainer"></div>
+
+    <div class="container">
+        <header>
+            <h1>我的藏书阁</h1>
+            <p>每一本书都是一个世界，等待着被探索。在这里，你可以发现那些影响我思想的文字。</p>
+        </header>
+
+        <!-- 书籍网格 -->
+        <div class="books-grid" id="booksGrid">
+        <!-- 书籍1 -->
+        <div class="book-card" onclick="window.location.href='bookdetail1.html'">
+            <div class="book-cover">
+                <img src="assets/img/book1.jpg" alt="书籍封面">
+                <h3>书籍标题一</h3>
+            </div>
+            <div class="book-content">
+                <h3>书籍标题一</h3>
+                <p>这里是书籍一的详细介绍内容。点击查看完整内容...</p>
+            </div>
+        </div>
+        
+        <!-- 书籍2 -->
+        <div class="book-card" onclick="window.location.href='bookdetail2.html'">
+            <div class="book-cover">
+                <img src="assets/img/book2.jpg" alt="书籍封面">
+                <h3>书籍标题二</h3>
+            </div>
+            <div class="book-content">
+                <h3>书籍标题二</h3>
+                <p>这里是书籍二的详细介绍内容。点击查看完整内容...</p>
+            </div>
+        </div>
+        
+        <!-- 书籍3 -->
+        <div class="book-card" onclick="window.location.href='bookdetail3.html'">
+            <div class="book-cover">
+                <img src="assets/img/book3.jpg" alt="书籍封面">
+                <h3>书籍标题三</h3>
+            </div>
+            <div class="book-content">
+                <h3>书籍标题三</h3>
+                <p>这里是书籍三的详细介绍内容。点击查看完整内容...</p>
+            </div>
+        </div>
+
+            <!-- 可以继续添加更多书籍 -->
+        </div>
+
+        <!-- 留言板 -->
+        <div class="message-board" id="messageBoard">
+            <h2>读者留言</h2>
+            <div class="message-form">
+                <textarea id="messageInput" placeholder="分享你对这些书籍的看法..."></textarea>
+                <button onclick="addMessage()">提交留言</button>
+            </div>
+            <div class="messages-container" id="messagesContainer">
+                <!-- 留言将在这里动态显示 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 音乐播放器 -->
+    <div class="music-player">
+        <button id="playPauseBtn">
+            <i class="iconfont icon-play"></i>
+        </button>
+        <progress id="musicProgress" value="0" max="100"></progress>
+        <button id="muteBtn">
+            <i class="iconfont icon-volume"></i>
+        </button>
+        <audio id="backgroundMusic" loop>
+            <!-- 替换为你的音乐文件路径 -->
+            <source src="assets/music/your-music-file.mp3" type="audio/mpeg">
+            您的浏览器不支持音频播放
+        </audio>
+    </div>
+
+    <script>
+        // 创建3D背景立方体
+        function createBackgroundCubes() {
+            const container = document.getElementById('bgContainer');
+            const cubeCount = 15;
+
+            for (let i = 0; i < cubeCount; i++) {
+                const cube = document.createElement('div');
+                cube.className = 'bg-cube';
+
+                // 创建立方体的6个面
+                for (let j = 0; j < 6; j++) {
+                    const face = document.createElement('div');
+                    const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
+                    face.className = faces[j];
+
+                    // 随机颜色
+                    const hue = Math.floor(Math.random() * 360);
+                    face.style.background = `hsl(${hue}, 70%, 50%)`;
+
+                    cube.appendChild(face);
+                }
+
+                // 随机位置和大小
+                const size = Math.random() * 150 + 50;
+                cube.style.width = `${size}px`;
+                cube.style.height = `${size}px`;
+                cube.style.left = `${Math.random() * 100}%`;
+                cube.style.top = `${Math.random() * 100}%`;
+                cube.style.animationDelay = `${Math.random() * 5}s`;
+                cube.style.animationDuration = `${Math.random() * 30 + 20}s`;
+
+                container.appendChild(cube);
+            }
+        }
+
+        // 音乐播放器控制
+        function setupMusicPlayer() {
+            const audio = document.getElementById('backgroundMusic');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const muteBtn = document.getElementById('muteBtn');
+            const progressBar = document.getElementById('musicProgress');
+
+            // 播放/暂停
+            playPauseBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playPauseBtn.innerHTML = '<i class="iconfont icon-pause"></i>';
+                } else {
+                    audio.pause();
+                    playPauseBtn.innerHTML = '<i class="iconfont icon-play"></i>';
+                }
+            });
+
+            // 静音
+            muteBtn.addEventListener('click', () => {
+                audio.muted = !audio.muted;
+                muteBtn.innerHTML = audio.muted ?
+                    '<i class="iconfont icon-mute"></i>' :
+                    '<i class="iconfont icon-volume"></i>';
+            });
+
+            // 进度更新
+            audio.addEventListener('timeupdate', () => {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressBar.value = percent;
+            });
+
+            // 点击进度条跳转
+            progressBar.addEventListener('click', (e) => {
+                const rect = progressBar.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = pos * audio.duration;
+            });
+        }
+
+        // 留言板功能
+        function setupMessageBoard() {
+            // 从本地存储加载留言
+            loadMessages();
+
+            // 防止XSS攻击的辅助函数
+            function sanitizeHTML(str) {
+                return str
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            // 添加留言
+            window.addMessage = function () {
+                const input = document.getElementById('messageInput');
+                const text = input.value.trim();
+
+                if (!text) return;
+
+                // 净化输入内容
+                const sanitizedText = sanitizeHTML(text);
+
+                // 创建留言对象
+                const message = {
+                    text: sanitizedText,
+                    time: new Date().toLocaleString()
+                };
+
+                // 保存到本地存储
+                let messages = JSON.parse(localStorage.getItem('bookMessages') || '[]');
+                messages.push(message);
+                localStorage.setItem('bookMessages', JSON.stringify(messages));
+
+                // 更新显示
+                addMessageToDOM(message);
+                input.value = '';
+            };
+
+            // 加载留言
+            function loadMessages() {
+                const messages = JSON.parse(localStorage.getItem('bookMessages') || '[]');
+                messages.forEach(addMessageToDOM);
+            }
+
+            // 添加留言到DOM
+            function addMessageToDOM(message) {
+                const container = document.getElementById('messagesContainer');
+                const div = document.createElement('div');
+                div.className = 'message-item';
+                div.innerHTML = `
+                    <div class="message-text">${message.text}</div>
+                    <div class="message-time">${message.time}</div>
+                `;
+                container.prepend(div); // 添加到最前面
+            }
+        }
+
+        // 滚动显示动画
+        function setupScrollAnimation() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // 观察书籍卡片
+            document.querySelectorAll('.book-card').forEach(card => {
+                observer.observe(card);
+            });
+
+            // 观察留言板
+            observer.observe(document.getElementById('messageBoard'));
+        }
+
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            createBackgroundCubes();
+            setupMusicPlayer();
+            setupMessageBoard();
+            setupScrollAnimation();
+        });
+    </script>
+</body>
+
+</html>

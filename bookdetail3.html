@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>书籍标题一 - 详细内容</title>
+    <style>
+        :root {
+            --text-primary: #333;
+            --text-secondary: #666;
+            --bg-color: #f8f9fa;
+            --accent-color: #3498db;
+            --card-bg: #fff;
+            --border-color: #eee;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.8;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px 60px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+
+        header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .meta-info {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .chapter {
+            margin-bottom: 30px;
+        }
+
+        .chapter h2 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 5px;
+            border-radius: 2px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .chapter h2 {
+                font-size: 1.3rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="book.html" class="back-link">← 返回藏书阁</a>
+
+        <header>
+            <h1>书籍标题一</h1>
+            <div class="meta-info">
+                作者: 张三 | 出版年份: 2020 | 类别: 文学
+            </div>
+            <p>这是一本关于人类文明发展的史诗级著作，通过多个视角展现了不同文化背景下人们的生活与思考。</p>
+        </header>
+
+        <div class="content">
+            <div class="chapter">
+                <h2>第一章：起源</h2>
+                <p>在遥远的过去，当人类还处于蒙昧时期，我们的祖先就开始了对世界的探索。他们仰望星空，思考着自身的存在，这种好奇心是推动文明进步的原始动力。</p>
+                <p>随着时间的推移，简单的思考逐渐形成了系统的知识，这些知识通过口耳相传，代代延续。直到文字的出现，才真正改变了知识传承的方式。</p>
+            </div>
+
+            <div class="chapter">
+                <h2>第二章：文明的曙光</h2>
+                <p>最早的文明诞生于河流两岸，水源为农业发展提供了可能，而农业的进步又使得一部分人可以脱离生产，专门从事思考和创造。</p>
+                <p>这些早期文明虽然彼此隔绝，却在很多方面展现出了惊人的相似性。他们都发展出了自己的文字系统、建筑风格和社会结构，这些都是 <span class="highlight">人类智慧的共同体现</span>。
+                </p>
+            </div>
+
+            <div class="chapter">
+                <h2>第三章：思想的碰撞</h2>
+                <p>随着交通的发展，不同文明之间开始有了接触。这种接触有时伴随着冲突，但更多的是思想的交流与融合。</p>
+                <p>各种哲学思想、科学发现和艺术形式在不同文明间传播，相互影响，共同推动着人类对世界的认知不断深化。</p>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <span></span> <!-- 左侧为空，因为这是第一本书 -->
+            <a href="book2-detail.html" class="nav-link">下一本书 →</a>
+        </div>
+    </div>
+</body>
+
+</html>
