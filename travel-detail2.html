@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>城市风光 - 旅行记忆</title>
+    <!-- 引入外部资源（与上一页相同） -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Tailwind配置（与上一页相同） -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#6366F1',
+                        dark: 'rgba(0, 0, 0, 0.7)',
+                        light: 'rgba(255, 255, 255, 0.9)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto { content-visibility: auto; }
+            .bg-blur { backdrop-filter: blur(8px); }
+            .text-shadow { text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
+            .image-hover {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .image-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            }
+        }
+    </style>
+
+    <style>
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            background-image: url('assets/img/travel2.jpg');
+            filter: brightness(0.6);
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .image-container img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-light min-h-screen">
+    <div class="fixed inset-0 bg-dark z-[-1]"></div>
+    <div class="background-container"></div>
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="mb-6 fade-in">
+            <a href="habbyabout.html#travel-view"
+                class="inline-flex items-center gap-2 text-light/80 hover:text-light transition-colors">
+                <i class="fa fa-arrow-left"></i>
+                <span>返回旅行主页</span>
+            </a>
+        </div>
+
+        <main class="fade-in">
+            <div class="bg-dark/60 bg-blur rounded-xl p-6 md:p-8 shadow-2xl">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-shadow">城市脉搏</h2>
+
+                <!-- 图片展示区 -->
+                <div class="grid grid-cols-1 gap-6 mb-8">
+                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-80">
+                        <img src="assets/img/travel2.jpg" alt="城市天际线">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64">
+                            <img src="assets/img/travel-city1.jpg" alt="城市街景">
+                        </div>
+                        <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64">
+                            <img src="assets/img/travel-city2.jpg" alt="城市夜景">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 文字内容区 -->
+                <div class="prose prose-lg prose-invert max-w-none">
+                    <p>城市是人类文明的结晶，每一条街道都流淌着独特的故事。我喜欢在陌生的城市里漫无目的地行走，感受不同地域的生活节奏。</p>
+
+                    <p class="mt-4">
+                        这座城市最吸引我的是它新旧交织的气质——古老的街巷与现代建筑和谐共存，老字号店铺的烟火气与写字楼的玻璃幕墙相映成趣。在清晨的菜市场，能听到最地道的方言；在深夜的书店，能遇见同样热爱阅读的陌生人。
+                    </p>
+
+                    <p class="mt-4">站在城市的制高点眺望，万家灯火如同繁星落地。每个窗口背后都有自己的故事，这些故事汇聚在一起，便构成了这座城市的灵魂。</p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 text-center text-light/60 text-sm fade-in">
+            <p>旅行记忆 &copy; 2023</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in').forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>山川风景 - 旅行记忆</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- 配置Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#6366F1',
+                        dark: 'rgba(0, 0, 0, 0.7)',
+                        light: 'rgba(255, 255, 255, 0.9)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .bg-blur {
+                backdrop-filter: blur(8px);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            .image-hover {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .image-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            }
+        }
+    </style>
+
+    <style>
+        /* 背景样式 */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            background-image: url('assets/img/travel1.jpg');
+            filter: brightness(0.6);
+        }
+
+        /* 内容淡入动画 */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 图片容器样式 */
+        .image-container img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-light min-h-screen">
+    <!-- 背景遮罩层 -->
+    <div class="fixed inset-0 bg-dark z-[-1]"></div>
+    <div class="background-container"></div>
+
+    <!-- 主容器 -->
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- 返回按钮 -->
+        <div class="mb-6 fade-in">
+            <a href="habbyabout.html#travel-view"
+                class="inline-flex items-center gap-2 text-light/80 hover:text-light transition-colors">
+                <i class="fa fa-arrow-left"></i>
+                <span>返回旅行主页</span>
+            </a>
+        </div>
+
+        <!-- 主内容区 -->
+        <main class="fade-in">
+            <div class="bg-dark/60 bg-blur rounded-xl p-6 md:p-8 shadow-2xl">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-shadow">山川之间</h2>
+
+                <!-- 图片展示区 - 支持灵活增减 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-80 md:h-96">
+                        <img src="assets/img/travel1.jpg" alt="山川全景">
+                    </div>
+                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-80 md:h-96">
+                        <img src="assets/img/travel-mountain1.jpg" alt="山间云雾">
+                    </div>
+                    <div
+                        class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-80 md:h-96 md:col-span-2">
+                        <img src="assets/img/travel-mountain2.jpg" alt="登山小径">
+                    </div>
+                </div>
+
+                <!-- 文字内容区 -->
+                <div class="prose prose-lg prose-invert max-w-none">
+                    <p>群山是大地的脊梁，每一次攀登都是与自然的对话。站在山顶俯瞰云海翻涌时，所有的烦恼都变得渺小。</p>
+
+                    <p class="mt-4">
+                        这次山川之旅最难忘的是在清晨五点出发，沿着蜿蜒的山路向上攀登。起初四周一片漆黑，只有头灯的光束照亮前方的石阶。随着天色渐亮，身边的植被从阔叶林变成针叶林，空气也愈发清新凛冽。</p>
+
+                    <p class="mt-4">当第一缕阳光越过山脊，金色的光芒瞬间铺满山谷，云海在脚下流动，仿佛置身仙境。那一刻明白了古人为何总说"登泰山而小天下"，不是征服了山，而是山让我们看清了自己的位置。
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="mt-12 text-center text-light/60 text-sm fade-in">
+            <p>旅行记忆 &copy; 2023</p>
+        </footer>
+    </div>
+
+    <script>
+        // 页面加载时的淡入动画
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in').forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海边日落 - 旅行记忆</title>
+    <!-- 引入外部资源（与前两页相同） -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- 配置与样式（与前两页相同，仅背景图不同） -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#6366F1',
+                        dark: 'rgba(0, 0, 0, 0.7)',
+                        light: 'rgba(255, 255, 255, 0.9)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto { content-visibility: auto; }
+            .bg-blur { backdrop-filter: blur(8px); }
+            .text-shadow { text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
+            .image-hover {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .image-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            }
+        }
+    </style>
+
+    <style>
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            background-image: url('assets/img/travel3.jpg');
+            filter: brightness(0.6);
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .image-container img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-light min-h-screen">
+    <div class="fixed inset-0 bg-dark z-[-1]"></div>
+    <div class="background-container"></div>
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="mb-6 fade-in">
+            <a href="habbyabout.html#travel-view"
+                class="inline-flex items-center gap-2 text-light/80 hover:text-light transition-colors">
+                <i class="fa fa-arrow-left"></i>
+                <span>返回旅行主页</span>
+            </a>
+        </div>
+
+        <main class="fade-in">
+            <div class="bg-dark/60 bg-blur rounded-xl p-6 md:p-8 shadow-2xl">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-shadow">海与落日</h2>
+
+                <!-- 图片展示区 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64 md:col-span-2">
+                        <img src="assets/img/travel3.jpg" alt="海边日落全景">
+                    </div>
+                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64">
+                        <img src="assets/img/travel-sea1.jpg" alt="海浪">
+                    </div>
+                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64">
+                        <img src="assets/img/travel-sea2.jpg" alt="沙滩足迹">
+                    </div>
+                    <div class="image-container rounded-lg overflow-hidden shadow-lg image-hover h-64 md:col-span-2">
+                        <img src="assets/img/travel-sea3.jpg" alt="日落余晖">
+                    </div>
+                </div>
+
+                <!-- 文字内容区 -->
+                <div class="prose prose-lg prose-invert max-w-none">
+                    <p>大海有着神奇的治愈能力，无论多么烦躁的心情，在看到那片蔚蓝时都会变得平静。而日落时分的大海，更是美得让人心醉。</p>
+
+                    <p class="mt-4">那天傍晚，我坐在礁石上等待日落。起初天空是明亮的蓝，随着太阳逐渐西沉，云彩被染成了橘红、瑰紫、金粉...
+                        每一分钟都在变幻色彩。海浪拍打着礁石，发出有节奏的声响，仿佛在为这场天空的盛宴伴奏。</p>
+
+                    <p class="mt-4">当最后一缕阳光沉入海面，人群渐渐散去，我却依然不愿离开。黑暗慢慢笼罩下来，海面开始闪烁着星光的倒影。那一刻，时间仿佛静止，只剩下我与这片广阔的海洋，在无声地交流。
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 text-center text-light/60 text-sm fade-in">
+            <p>旅行记忆 &copy; 2023</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in').forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+
+</html>
