@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>书籍标题一 - 详细内容</title>
+    <title>小逻辑 - 详细内容</title>
     <style>
         :root {
             --text-primary: #333;
@@ -78,11 +78,15 @@
         }
 
         .navigation {
-            display: flex;
+            display: inline-flex;
             justify-content: space-between;
             margin-top: 40px;
             padding-top: 20px;
             border-top: 1px solid var(--border-color);
+        }
+        .nav-row {
+        display: flex; /* 子元素横向排列 */
+        justify-content: space-between; /* 两端对齐，也可根据需求用flex-start、center等 */
         }
 
         .nav-link {
@@ -131,38 +135,47 @@
         <a href="book.html" class="back-link">← 返回藏书阁</a>
 
         <header>
-            <h1>书籍标题一</h1>
+            <h1>小逻辑</h1>
             <div class="meta-info">
-                作者: 张三 | 出版年份: 2020 | 类别: 文学
+                作者: 黑格尔 | 出版年份: 2019 | 类别: 哲学
             </div>
-            <p>这是一本关于人类文明发展的史诗级著作，通过多个视角展现了不同文化背景下人们的生活与思考。</p>
+            <p>它论述的是由感性的反映物质世界，发展为由知性反映有中人性在关系中的宏观现实世界，最后发展到理性的辩证的上升到主观与客观、理论与实践、有限与无限得到统一的全体的绝对理念。</p>
         </header>
 
         <div class="content">
             <div class="chapter">
-                <h2>第一章：起源</h2>
-                <p>在遥远的过去，当人类还处于蒙昧时期，我们的祖先就开始了对世界的探索。他们仰望星空，思考着自身的存在，这种好奇心是推动文明进步的原始动力。</p>
-                <p>随着时间的推移，简单的思考逐渐形成了系统的知识，这些知识通过口耳相传，代代延续。直到文字的出现，才真正改变了知识传承的方式。</p>
+                <h2>概念是具体的</h2>
+                <p>形而上学地说，黑格尔哲学或许溯源于这样一个基石：概念是具体的（concrete），如黑氏所言，“理念自身本质上却是具体的，因为它是自己决定自己，从而自己实现自己的自由的概念(in itself the idea is essentially
+                concrete since it is the free concept, the concept determining itself and thereby determining itself as
+                reality)。”</p>
+                <p>或许可以这样来类比地把握：在理解到勾股定理时，勾股定理的真理性本身不仅仅是具体的，而且比眼前的一个美女更确凿：美人迟暮，而勾股定理却持续长存。</p>
             </div>
 
             <div class="chapter">
-                <h2>第二章：文明的曙光</h2>
-                <p>最早的文明诞生于河流两岸，水源为农业发展提供了可能，而农业的进步又使得一部分人可以脱离生产，专门从事思考和创造。</p>
-                <p>这些早期文明虽然彼此隔绝，却在很多方面展现出了惊人的相似性。他们都发展出了自己的文字系统、建筑风格和社会结构，这些都是 <span class="highlight">人类智慧的共同体现</span>。
+                <h2>真理是辩证的</h2>
+                <p>另一个基石则是“真理是辩证的”这一本体论规定。相应地，在方法论上黑格尔通过扬弃知性的同一律等，抵达了思辨思维（speculative
+                thinking），即对概念的具体思维，或者说即概念自身的自我展开，“逻辑学便与形而上学合流了。”</p>
+                <p>说白了，黑格尔的意思是：超越于形式逻辑之上，我们可以（完全）倾听或把捉到绝对理念的显现，因为我们就是真理显现中至关重要的环节。黑格尔宛如交响乐的绝对的进程，依据可以依照《精神现象学》里面的话来讲，一切不过是 <span class="highlight">“上帝爱自己的游戏”。</span>。
                 </p>
             </div>
 
             <div class="chapter">
-                <h2>第三章：思想的碰撞</h2>
-                <p>随着交通的发展，不同文明之间开始有了接触。这种接触有时伴随着冲突，但更多的是思想的交流与融合。</p>
-                <p>各种哲学思想、科学发现和艺术形式在不同文明间传播，相互影响，共同推动着人类对世界的认知不断深化。</p>
+                <h2>我的思绪在哪里</h2>
+                <p>每一次拿起都是一次放弃</p>
+                <p>每一次放弃都是预想下一次的美好</p>
             </div>
         </div>
-
-        <div class="navigation">
-            <span></span> <!-- 左侧为空，因为这是第一本书 -->
-            <a href="book2-detail.html" class="nav-link">下一本书 →</a>
+        <div class="nav-row">
+            <div class="navigation">
+                <a href="bookdetail1.html" class="nav-link">上一本书 </a>
+                <span></span>
+            </div>
+            <div class="navigation">
+                <span></span>
+                <a href="bookdetail3.html" class="nav-link">下一本书 →</a>
+            </div>
         </div>
+        
     </div>
 </body>
 

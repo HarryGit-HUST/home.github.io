@@ -166,6 +166,12 @@
             margin: 0 1rem;
             accent-color: var(--accent-color);
         }
+        .music-player input[type="range"] {
+    width: 80px;
+    margin: 0 0.5rem;
+    accent-color: var(--accent-color);
+}
+        
 
         /* 书籍网格 */
         .books-grid {
@@ -399,6 +405,9 @@
             .music-player progress {
                 width: 150px;
             }
+            .music-player input[type="range"] {
+        width: 60px;
+    }
         }
     </style>
 </head>
@@ -418,36 +427,36 @@
         <!-- 书籍1 -->
         <div class="book-card" onclick="window.location.href='bookdetail1.html'">
             <div class="book-cover">
-                <img src="assets/img/book1.jpg" alt="书籍封面">
-                <h3>书籍标题一</h3>
+                <img src="assets/img/book/1.jpg" alt="书籍封面">
+                <h3>丁酉故事集</h3>
             </div>
             <div class="book-content">
-                <h3>书籍标题一</h3>
-                <p>这里是书籍一的详细介绍内容。点击查看完整内容...</p>
+                <h3>丁酉故事集 弋舟</h3>
+                <p>我对现代文学的普遍观感都在这本书里头了……</p>
             </div>
         </div>
         
         <!-- 书籍2 -->
         <div class="book-card" onclick="window.location.href='bookdetail2.html'">
             <div class="book-cover">
-                <img src="assets/img/book2.jpg" alt="书籍封面">
-                <h3>书籍标题二</h3>
+                <img src="assets/img/book/2.jpg" alt="书籍封面">
+                <h3>小逻辑</h3>
             </div>
             <div class="book-content">
-                <h3>书籍标题二</h3>
-                <p>这里是书籍二的详细介绍内容。点击查看完整内容...</p>
+                <h3>小逻辑 黑格尔</h3>
+                <p>高一借了，现在也没有读完</p>
             </div>
         </div>
         
         <!-- 书籍3 -->
         <div class="book-card" onclick="window.location.href='bookdetail3.html'">
             <div class="book-cover">
-                <img src="assets/img/book3.jpg" alt="书籍封面">
-                <h3>书籍标题三</h3>
+                <img src="assets/img/book/3.jpg" alt="书籍封面">
+                <h3>考工记</h3>
             </div>
             <div class="book-content">
-                <h3>书籍标题三</h3>
-                <p>这里是书籍三的详细介绍内容。点击查看完整内容...</p>
+                <h3>考工记 王安忆</h3>
+                <p>说实话这几本书都不是最喜欢的，但又很难挑，只能选一些有特色的，王安忆，文笔一绝</p>
             </div>
         </div>
 
@@ -467,21 +476,23 @@
         </div>
     </div>
 
-    <!-- 音乐播放器 -->
-    <div class="music-player">
-        <button id="playPauseBtn">
-            <i class="iconfont icon-play"></i>
-        </button>
-        <progress id="musicProgress" value="0" max="100"></progress>
-        <button id="muteBtn">
-            <i class="iconfont icon-volume"></i>
-        </button>
-        <audio id="backgroundMusic" loop>
-            <!-- 替换为你的音乐文件路径 -->
-            <source src="assets/music/your-music-file.mp3" type="audio/mpeg">
-            您的浏览器不支持音频播放
-        </audio>
-    </div>
+<!-- 音乐播放器 -->
+<div class="music-player">
+    <button id="playPauseBtn">
+        <i class="iconfont icon-play"></i>
+    </button>
+    <progress id="musicProgress" value="0" max="100"></progress>
+    <button id="muteBtn">
+        <i class="iconfont icon-volume"></i>
+    </button>
+    <!-- 新增音量调节滑块 -->
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="1">
+    <audio id="backgroundMusic" loop>
+        <!-- 替换为你的音乐文件路径 -->
+        <source src="assets/music/德彪西月光.mp3" type="audio/mpeg">
+        您的浏览器不支持音频播放
+    </audio>
+</div>
 
     <script>
         // 创建3D背景立方体
@@ -519,45 +530,61 @@
             }
         }
 
-        // 音乐播放器控制
-        function setupMusicPlayer() {
-            const audio = document.getElementById('backgroundMusic');
-            const playPauseBtn = document.getElementById('playPauseBtn');
-            const muteBtn = document.getElementById('muteBtn');
-            const progressBar = document.getElementById('musicProgress');
+          // 音乐播放器控制
+            function setupMusicPlayer() {
+                const audio = document.getElementById('backgroundMusic');
+                const playPauseBtn = document.getElementById('playPauseBtn');
+                const muteBtn = document.getElementById('muteBtn');
+                const progressBar = document.getElementById('musicProgress');
+                // 新增音量滑块元素
+                const volumeSlider = document.getElementById('volumeSlider');
 
-            // 播放/暂停
-            playPauseBtn.addEventListener('click', () => {
-                if (audio.paused) {
-                    audio.play();
-                    playPauseBtn.innerHTML = '<i class="iconfont icon-pause"></i>';
-                } else {
-                    audio.pause();
-                    playPauseBtn.innerHTML = '<i class="iconfont icon-play"></i>';
-                }
-            });
+                // 播放/暂停
+                playPauseBtn.addEventListener('click', () => {
+                    if (audio.paused) {
+                        audio.play();
+                        playPauseBtn.innerHTML = '<i class="iconfont icon-pause"></i>';
+                    } else {
+                        audio.pause();
+                        playPauseBtn.innerHTML = '<i class="iconfont icon-play"></i>';
+                    }
+                });
 
-            // 静音
-            muteBtn.addEventListener('click', () => {
-                audio.muted = !audio.muted;
-                muteBtn.innerHTML = audio.muted ?
-                    '<i class="iconfont icon-mute"></i>' :
-                    '<i class="iconfont icon-volume"></i>';
-            });
+                // 静音切换
+                muteBtn.addEventListener('click', () => {
+                    audio.muted = !audio.muted;
+                    muteBtn.innerHTML = audio.muted ?
+                        '<i class="iconfont icon-mute"></i>' :
+                        '<i class="iconfont icon-volume"></i>';
+                    // 同步更新滑块状态
+                    volumeSlider.value = audio.muted ? 0 : audio.volume;
+                });
 
-            // 进度更新
-            audio.addEventListener('timeupdate', () => {
-                const percent = (audio.currentTime / audio.duration) * 100;
-                progressBar.value = percent;
-            });
+                // 音量调节
+                volumeSlider.addEventListener('input', () => {
+                    const volume = parseFloat(volumeSlider.value);
+                    audio.volume = volume;
+                    audio.muted = volume === 0;
 
-            // 点击进度条跳转
-            progressBar.addEventListener('click', (e) => {
-                const rect = progressBar.getBoundingClientRect();
-                const pos = (e.clientX - rect.left) / rect.width;
-                audio.currentTime = pos * audio.duration;
-            });
-        }
+                    // 更新静音按钮状态
+                    muteBtn.innerHTML = audio.muted ?
+                        '<i class="iconfont icon-mute"></i>' :
+                        '<i class="iconfont icon-volume"></i>';
+                });
+
+                // 进度更新
+                audio.addEventListener('timeupdate', () => {
+                    const percent = (audio.currentTime / audio.duration) * 100;
+                    progressBar.value = percent;
+                });
+
+                // 点击进度条跳转
+                progressBar.addEventListener('click', (e) => {
+                    const rect = progressBar.getBoundingClientRect();
+                    const pos = (e.clientX - rect.left) / rect.width;
+                    audio.currentTime = pos * audio.duration;
+                });
+            }
 
         // 留言板功能
         function setupMessageBoard() {
